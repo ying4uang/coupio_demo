@@ -30,52 +30,61 @@
 					<p>Ying Huang</p>
 					<p>Insight Data Engineering NY</p>
 				</section>
+				
+				<section>
+    				<h3>Current Coupon Distribution Process</h3>
+    				<img src="image/coupon.png" style="background:none; border:none; box-shadow:none;">
+				</section>
 				<section>
     				<h3>Motivation</h3>
     				<ul>
 					<li>Redesign an old project with new technologies</li>
-					<li>Simulating coupon distribution for better decision making</li>
-					<li>Provide analytics for long term analysis</li>
+					<li>Simulate distribution for better decision making</li>
+					<li>Provide analytics tools for complex analysis</li>
 					</ul>
 				</section>
+			
+
 				<section>
-    				<h3>Current Coupon Distribution Process</h3>
-    				<img src="image/coupon.png">
+    			
+    			
+				<a href="http://www.coupio.us" target="_blank">Demo</a>	
 				</section>
-				<section>
-    				<h3>Coupio Simulation Process</h3>
-    				<ul>
-					<li>Create a campaign</li>
-					<li>Campaign hits transactions that fit promotion criteria</li>
-					<li>See real-time result update</li>
-					</ul>
-					<img src="image/flow.png" style="background:none; border:none; box-shadow:none;">
-				</section>
-				<section>
+
+				
+
+
+    			<section>
     				<h3>Streaming Pipeline</h3>
     				<img src="image/stream.png" style="background:none; border:none; box-shadow:none;">
     				</section>
+
+    			<section>
+    				<h3>Streaming Query</h3>
+    				<img src="image/datajoin.png" style="background:none; border:none; box-shadow:none;">
+    				</section>
+
+
+				
     			<section>
     				<h3>Batch Pipeline</h3>
     				<img src="image/batch.png" style="background:none; border:none; box-shadow:none;">
     				</section>
 
-    			<section>
-    				<h3>Batch + Stream Pipeline</h3>
-    				<img src="image/pipeline.png" style="background:none; border:none; box-shadow:none;">
-    				</section>
+    			
+
 
     			<section>
-    				<h3>Queries</h3>
-    				<ul>
-					<li>How many coupons have been distributed?(real-time)</li>
-					<li>Aggregated anlaytics over time(batch)</li>
-					</ul>
-					
-				</section>
+    				<h3>Batch + Streaming Pipeline</h3>
+    				<img src="image/pipeline.png" style="background:none; border:none; box-shadow:none;">
+    			</section>
+
+    			
+
+    	
 
 				<section>
-    				<h3>Challenges: Connection in Spark Streaming</h3>
+    				<h3>Lessons Learned: Connection in Spark Streaming</h3>
     				  <pre><code>
 
 result.foreachPartition( partitionIter=> {
@@ -94,7 +103,29 @@ jedis.hincrBy(record.getInt(0).toString,"coupon_count", record.getLong(2))
 					
 				</section>
 
+
 				<section>
+    				<h3>Lessons Learned: Atomicity in Redis</h3>
+    				  
+<pre><code>
+pipe = r.pipeline()
+while 1:
+	try:
+		pipe.watch('campaignid')
+		value = pipe.get('campaignid')
+		pipe.multi()
+		pipe.set('campaignid', value+1)
+		pipe.hmset(value+1, campaign_info)
+		pipe.execute()
+		break
+	except WatchError:
+		continue
+	finally:
+		pipe.reset()
+</pre></code>
+				</section>
+
+				<!--<section>
     				<h3>Challenges: Update RDD with Latest Campaign</h3>
     			
 					 <pre><code>
@@ -112,33 +143,29 @@ messages.foreachRDD ( rdd=> {
         val ds = sqlContext.createDataset(rows)
         })
   					  </code></pre>
-				</section>
+				</section>-->
 
+
+				
 				<section>
     				<h3>Next Steps</h3>
     			<ul>
-					<li>Integration Testing Between Components</li>
-					<li>Workflow Automation</li>
+					<li>Overall Workflow Management with Luigi</li>
+					<li>Integration Testing</li>
 					</ul>
 					
 					
+					
 				</section>
-
-
-				<section>
-    			
-    			
-				<a href="http://www.coupio.us" target="_blank">Demo</a>	
-				</section>
-
 
 				<section>
     				<h3>About me</h3>
     			<ul>
-					<li>6 years experience working with BI tools</li>
-					<li>Love playing basketball</li>
+					<li>6 years experience working with BI tools, including modeling and reporting</li>
 					</ul>
 					<img src="image/cat.png" style="background:none; border:none; box-shadow:none;">
+					<img src="image/Self_Driving_Car_P3.gif" style="background:none; border:none; box-shadow:none;">
+					<img src="image/LaneDetection.gif" style="background:none; border:none; box-shadow:none;">
 					
 					
 				</section>
